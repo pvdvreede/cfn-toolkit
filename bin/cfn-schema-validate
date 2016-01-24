@@ -1,0 +1,22 @@
+#! /usr/bin/env ruby
+
+require 'aws-sdk'
+require 'json-schema'
+
+template = ARGF.read
+schema_path = File.join('resources', 'CloudFormationV1.schema')
+
+errors = JSON::Validator.fully_validate(
+  schema_path,
+  template,
+  fragment: '#/root-schema-object',
+  validate_schema: true,
+  strict: true,
+  errors_as_objects: true)
+
+if errors.empty?
+  puts template
+else
+  STDERR.puts "There were schema validation errors:"
+  STDERR.puts errors.map(&:message).join("\n")
+end

@@ -1,0 +1,22 @@
+#! /usr/bin/env ruby
+
+require 'json'
+
+def sorter(a, b)
+  case
+  when a == "AWSTemplateFormatVersion"
+    -1
+  when b == "AWSTemplateFormatVersion"
+    1
+  else
+    0
+  end
+end
+
+template = ARGF.read
+
+hash_template = JSON.parse(template)
+
+sorted = hash_template.sort { |a, b| sorter(a.first, b.first) }.to_h
+
+puts JSON.pretty_generate(sorted)

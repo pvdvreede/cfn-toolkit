@@ -1,6 +1,7 @@
 ---
 defaults: &defaults
   build: .
+  stdin_open: true
   working_dir: /app
   volumes:
     - ".:/app"
@@ -11,6 +12,26 @@ defaults: &defaults
     - AWS_DEFAULT_REGION
     - AWS_SESSION_TOKEN
 
-validate:
+cfn-aws-validate:
   <<: *defaults
-  entrypoint: [bin/cfn-validate]
+  entrypoint: [cfn-aws-validate]
+
+cfn-schema-validate:
+  <<: *defaults
+  entrypoint: [cfn-schema-validate]
+
+cfn-order:
+  <<: *defaults
+  entrypoint: [cfn-order]
+
+cfn-yamlify:
+  <<: *defaults
+  entrypoint: [cfn-yamlify]
+
+cfn-jsonify:
+  <<: *defaults
+  entrypoint: [cfn-jsonify]
+
+cfn-info:
+  <<: *defaults
+  entrypoint: [cfn-info]

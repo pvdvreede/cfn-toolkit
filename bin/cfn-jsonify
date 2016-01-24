@@ -1,0 +1,10 @@
+#! /usr/bin/env ruby
+
+require 'yaml'
+require 'json'
+
+yaml_template = ARGF.read
+
+template_hash = YAML.load(yaml_template)
+
+puts JSON.pretty_generate(template_hash)
