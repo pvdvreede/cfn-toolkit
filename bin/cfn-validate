@@ -1,0 +1,12 @@
+#! /usr/bin/env ruby
+
+require 'aws-sdk'
+
+template = ARGF.read
+cfn = Aws::CloudFormation::Client.new
+begin
+  resp = cfn.validate_template(template_body: template)
+  puts template
+rescue Aws::CloudFormation::Errors::ValidationError => e
+  STDERR.puts "Template validation error: #{e.message}"
+end
