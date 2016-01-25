@@ -1,10 +1,10 @@
 #! /usr/bin/env ruby
 
 require 'aws-sdk'
-require 'yaml'
+require 'json'
 
 stack_name = ARGV.first
 cfn = Aws::CloudFormation::Client.new
 stack = cfn.describe_stacks(stack_name: stack_name).stacks.first
 
-puts YAML.dump(stack.to_h)
+puts JSON.pretty_generate(stack.to_h)
