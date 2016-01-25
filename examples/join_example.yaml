@@ -1,0 +1,14 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Resources:
+  MyResource:
+    Type: AWS::EC2::Instance
+    Properties:
+      UserData:
+        Fn::Base64:
+          Fn::Join: |
+            #! /bin/bash
+
+            This is a multiple line string
+            that makes it easier to write scripts
+      ImageId: ami-12345678
