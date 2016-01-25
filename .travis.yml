@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+before_script:
+  - if [ "$TRAVIS_BRANCH" == 'master' ]; then docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; fi
+  - docker pull alpine:3.3
+
+script:
+  - docker build -t pvdvreede/cfn-toolkit:latest .
+  - if [ "$TRAVIS_BRANCH" == 'master' ]; then docker push pvdvreede/cfn-toolkit:latest; fi
