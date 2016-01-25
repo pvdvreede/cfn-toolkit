@@ -3,10 +3,20 @@
 require 'json'
 
 def sorter(a, b)
+  order = [
+    "AWSTemplateFormatVersion",
+    "Description",
+    "Metadata",
+    "Parameters",
+    "Mappings",
+    "Conditions",
+    "Resources",
+    "Outputs"
+  ]
   case
-  when a == "AWSTemplateFormatVersion"
+  when order.find_index(a) < order.find_index(b)
     -1
-  when b == "AWSTemplateFormatVersion"
+  when order.find_index(a) > order.find_index(b)
     1
   else
     0
