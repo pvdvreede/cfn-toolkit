@@ -35,3 +35,7 @@ cfn-jsonify:
 cfn-info:
   <<: *defaults
   entrypoint: [cfn-info]
+
+cfn-events:
+  <<: *defaults
+  entrypoint: [cfn-events]

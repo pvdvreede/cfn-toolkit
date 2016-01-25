@@ -1,0 +1,10 @@
+#! /usr/bin/env ruby
+
+require 'aws-sdk'
+require 'json'
+
+stack_name = ARGV.first
+cfn = Aws::CloudFormation::Client.new
+events = cfn.describe_stack_events(stack_name: stack_name).stack_events.take(15)
+
+puts JSON.pretty_generate(events.map(&:to_h).map { |h| h.delete_if { |k, _| k == :resource_properties } })

@@ -11,4 +11,6 @@ Resources:
 
             This is a multiple line string
             that makes it easier to write scripts
+            you can put %{{ATemplateReference}} in it and it will split
+            it for you
       ImageId: ami-12345678
