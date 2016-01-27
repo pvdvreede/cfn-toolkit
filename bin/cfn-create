@@ -1,17 +1,17 @@
 #! /usr/bin/env ruby
 
 require 'aws-sdk'
+require 'time'
 require_relative '../lib/cfn-toolkit/stack_running_parser'
 
-opts = opt_parser.parse(ARGV)
+STDOUT.sync = true
 
-ARGV.replace opts.arguments
+opts = parse_args
 
-template = ARGF.read
 client = Aws::CloudFormation::Client.new
 id = client.create_stack(
-  stack_name: ARGV.first,
-  template_body: template,
+  stack_name: opts[:stack_name],
+  template_body: opts[:template],
   tags: opts[:tags],
   capabilities: ["CAPABILITY_IAM"],
   parameters: opts[:params].map do |p|
@@ -19,10 +19,17 @@ id = client.create_stack(
   end
 ).stack_id
 
-client.wait_until(:stack_create_complete, stack_name: ARGV.first) do |waiter|
-  waiter.before_wait do |attempts, response|
-    puts "#{attempts} made"
-    puts response.error.inspect
-    puts response.data.inspect
+puts "Creating stack #{id}..."
+
+client.wait_until(:stack_create_complete, stack_name: opts[:stack_name]) do |waiter|
+  waiter.delay = 5
+  waiter.max_attempts = 120
+  waiter.before_wait do |_attempts, response|
+    stack = response.data.stacks.first
+    puts "---> [#{Time.now.iso8601}] "
+    puts "     #{stack.stack_status}"
+    puts "     #{stack.stack_status_reason}"
   end
 end
+
+puts "Stack complete."

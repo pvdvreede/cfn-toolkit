@@ -47,3 +47,7 @@ cfn-info:
 cfn-events:
   <<: *defaults
   entrypoint: [cfn-events]
+
+cfn-create:
+  <<: *defaults
+  entrypoint: [cfn-create]

@@ -11,6 +11,15 @@ module Slop
   end
 end
 
+def parse_args(args = ARGV, input = ARGF)
+  opts = opts_parser.parse(args)
+  args.replace opts.arguments
+  opts_h = opts.to_h
+  opts_h[:stack_name] = args.pop
+  opts_h[:template] = input.read
+  opts_h
+end
+
 def opts_parser
   Slop::Options.new do |o|
     o.key_values '--params', 'key=value pairs for the cfn params'
