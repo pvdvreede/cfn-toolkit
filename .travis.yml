@@ -6,7 +6,7 @@ services:
 before_script:
   - if [ "$TRAVIS_BRANCH" == 'master' ]; then docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"; fi
   - docker pull alpine:3.3
-  - docker-compose build
+  - docker-compose build test
 
 script:
   - docker-compose run test
