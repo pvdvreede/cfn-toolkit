@@ -23,14 +23,12 @@ describe FnJoinVisitor do
   end
 
   it "parses AWS inbuilt references" do
-    expect(subject.visit_Fn__Join("a test with :%{{AWS::AccountId}} and %{{AWS1}} and some more text", {})).to eq([
+    expect(subject.visit_Fn__Join("arn:aws:iam::%{{AWS::AccountId}}:saml-provider/myprovider", {})).to eq([
           "",
           [
-            "a test with :",
+            "arn:aws:iam::",
             { "Ref" => "AWS::AccountId" },
-            " and ",
-            { "Ref" => "AWS1" },
-            " and some more text"
+            ":saml-provider/myprovider"
           ]
       ])
   end

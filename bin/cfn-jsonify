@@ -2,15 +2,19 @@
 
 require 'yaml'
 require 'json'
+require 'slop'
 require_relative '../lib/cfn-toolkit/cfn_template_hash'
 require_relative '../lib/cfn-toolkit/fn_join_visitor'
 require_relative '../lib/cfn-toolkit/yaml_file_merger_visitor'
 
+opts = Slop.parse(ARGV) do |o|
+  o.string '--merge', 'path to merge yaml files with'
+end
+
+ARGV.replace opts.arguments
+
 yaml_template = ARGF.read
 
 template_hash = YAML.load(yaml_template)
-yaml_visits = CfnTemplateHash.new(template_hash)
-  .accept(YamlFileMergerVisitor.new(Dir.pwd))
-  .accept(FnJoinVisitor.new)
 
-puts JSON.pretty_generate(yaml_visits.to_h)
+puts JSON.pretty_generate(CfnTemplateHash.create(template_hash, opts[:merge]).to_h)

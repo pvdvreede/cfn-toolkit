@@ -1,4 +1,13 @@
 class CfnTemplateHash
+  class << self
+    def create(h, merge_dir = nil)
+      c = new(h)
+      c.accept(YamlFileMergerVisitor.new(merge_dir)) if merge_dir
+      c.accept(FnJoinVisitor.new)
+      c
+    end
+  end
+
   def initialize(hash)
     @hash = hash
   end
