@@ -21,4 +21,17 @@ describe FnJoinVisitor do
           ]
       ])
   end
+
+  it "parses AWS inbuilt references" do
+    expect(subject.visit_Fn__Join("a test with %{{AWS::AccountId}} and %{{AWS1}} and some more text", {})).to eq([
+          "",
+          [
+            "a test with ",
+            { "Ref" => "AWS::AccountId" },
+            " and ",
+            { "Ref" => "AWS1" },
+            " and some more text"
+          ]
+      ])
+  end
 end

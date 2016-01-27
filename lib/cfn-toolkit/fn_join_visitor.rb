@@ -20,7 +20,7 @@ class FnJoinVisitor < Parslet::Parser
   end
 
   def reference
-    (str('%{{') >> match('[a-zA-Z0-9]').repeat(1).as(:Ref) >> str('}}'))
+    (str('%{{') >> match('[a-zA-Z0-9\:]').repeat(1).as(:Ref) >> str('}}'))
   end
 
   def other
