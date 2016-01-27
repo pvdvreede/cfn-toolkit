@@ -4,11 +4,13 @@ require 'yaml'
 require 'json'
 require_relative '../lib/cfn-toolkit/cfn_template_hash'
 require_relative '../lib/cfn-toolkit/fn_join_visitor'
+require_relative '../lib/cfn-toolkit/yaml_file_merger_visitor'
 
 yaml_template = ARGF.read
 
 template_hash = YAML.load(yaml_template)
 yaml_visits = CfnTemplateHash.new(template_hash)
+  .accept(YamlFileMergerVisitor.new(Dir.pwd))
   .accept(FnJoinVisitor.new)
 
 puts JSON.pretty_generate(yaml_visits.to_h)

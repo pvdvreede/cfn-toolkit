@@ -4,6 +4,9 @@ class CfnTemplateHash
   end
 
   def accept(visitor)
+    if visitor.respond_to?(:visit_template)
+      visitor.visit_template(@hash)
+    end
     accept_recurse(@hash, visitor)
     self
   end
