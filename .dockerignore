@@ -3,3 +3,4 @@
 .travis.yml
 docker-compose.yml
 examples
+.rspec

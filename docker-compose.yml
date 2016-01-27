@@ -16,6 +16,10 @@ bundle:
   <<: *defaults
   command: bundle install --jobs=4
 
+test:
+  <<: *defaults
+  command: rspec spec
+
 cfn-aws-validate:
   <<: *defaults
   entrypoint: [cfn-aws-validate]
