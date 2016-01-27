@@ -26,6 +26,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    slop (4.2.1)
 
 PLATFORMS
   ruby
@@ -35,6 +36,7 @@ DEPENDENCIES
   deep_merge
   parslet
   rspec
+  slop
 
 BUNDLED WITH
    1.10.5
