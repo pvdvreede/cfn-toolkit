@@ -8,5 +8,5 @@ before_script:
   - docker pull alpine:3.3
 
 script:
-  - docker build -t pvdvreede/cfn-toolkit:latest .
+  - docker build --build-arg BUNDLE_WITHOUT="development test" -t pvdvreede/cfn-toolkit:latest .
   - if [ "$TRAVIS_BRANCH" == 'master' ]; then docker push pvdvreede/cfn-toolkit:latest; fi

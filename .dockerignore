@@ -1,0 +1,5 @@
+.git
+*.md
+.travis.yml
+docker-compose.yml
+examples

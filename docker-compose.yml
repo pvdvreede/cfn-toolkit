@@ -12,6 +12,10 @@ defaults: &defaults
     - AWS_DEFAULT_REGION
     - AWS_SESSION_TOKEN
 
+bundle:
+  <<: *defaults
+  command: bundle install --jobs=4
+
 cfn-aws-validate:
   <<: *defaults
   entrypoint: [cfn-aws-validate]
