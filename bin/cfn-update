@@ -1,0 +1,35 @@
+#! /usr/bin/env ruby
+
+require 'aws-sdk'
+require 'time'
+require_relative '../lib/cfn-toolkit/stack_running_parser'
+
+STDOUT.sync = true
+
+opts = parse_args
+
+client = Aws::CloudFormation::Client.new
+id = client.update_stack(
+  stack_name: opts[:stack_name],
+  template_body: opts[:template],
+  capabilities: ["CAPABILITY_IAM"],
+  parameters: opts[:params].map do |p|
+    { parameter_key: p[:key], parameter_value: p[:value], use_previous_value: false }
+  end
+).stack_id
+
+puts "Updating stack #{id}..."
+
+client.wait_until(:stack_update_complete, stack_name: opts[:stack_name]) do |waiter|
+  waiter.delay = 15
+  waiter.max_attempts = 200
+  waiter.before_wait do |_attempts, response|
+    stack = response.data.stacks.first
+    puts "---> #{Time.now.iso8601}"
+    puts "     #{stack.stack_status}"
+    puts "     #{stack.stack_status_reason}"
+    puts ""
+  end
+end
+
+puts "Stack update complete."
